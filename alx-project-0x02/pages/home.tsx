@@ -28,11 +28,9 @@ export default function HomePage() {
         <title>Home | ALX Project</title>
       </Head>
       <Header />
-
       <main className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-8 space-y-6">
         <h1 className="text-4xl font-bold text-green-600 mb-6">Home Page</h1>
 
-        {/* Button to open modal */}
         <button
           onClick={() => setIsModalOpen(true)}
           className="mb-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
@@ -40,14 +38,12 @@ export default function HomePage() {
           + Add Post
         </button>
 
-        {/* Modal */}
         <PostModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onSubmit={handleAddPost}
         />
 
-        {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {posts.map((post, index) => (
             <Card key={index} title={post.title} content={post.content} />
