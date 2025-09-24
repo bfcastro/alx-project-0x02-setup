@@ -1,20 +1,41 @@
-import Head from "next/head";
+import React, { useEffect, useState } from "react";
+import PostCard from "@/components/common/PostCard";
+import { PostProps } from "@/interfaces";
 import Header from "@/components/layout/Header";
 
-export default function PostsPage() {
+const PostsPage: React.FC = () => {
+  const [posts, setPosts] = useState<PostProps[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const res = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=5");
+      const data: PostProps[] = await res.json();
+      setPosts(data);
+    };
+    fetchPosts();
+  }, []);
+
   return (
-    <>
-      <Head>
-        <title>Posts | ALX Project</title>
-      </Head>
+    <div>
       <Header />
-      <main className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-8">
-        <h1 className="text-4xl font-bold text-blue-600 mb-4">Posts Page</h1>
-        <p className="text-lg text-gray-700">
-          This is the Posts page where future blog posts or articles can be
-          listed.
-        </p>
-      </main>
-    </>
+      <div className="max-w-3xl mx-auto mt-8">
+        <h1 className="text-2xl font-bold mb-6">Posts</h1>
+        {posts.length > 0 ? (
+          posts.map((post) => (
+            <PostCard
+              key={post.id}
+              id={post.id}
+              title={post.title}
+              body={post.body}
+              userId={post.userId}
+            />
+          ))
+        ) : (
+          <p>Loading posts...</p>
+        )}
+      </div>
+    </div>
   );
-}
+};
+
+export default PostsPage;
